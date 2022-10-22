@@ -9,7 +9,7 @@ function cart2csv()
     $csvList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // Excel header
 
     foreach (WC()->cart->get_cart() as $cart_item) {
-        $product            = $cart_item['data']; // Product Objects
+        $product            = $cart_item['data']; // Products Objects
 
         $regular_price      = $product->get_regular_price(); // Normal Price
         $sale_price         = $product->get_sale_price(); // Sale Price
