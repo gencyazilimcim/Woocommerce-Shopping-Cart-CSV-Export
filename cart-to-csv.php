@@ -9,20 +9,21 @@ function cart2csv()
     $csvList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // CSV header
 
     foreach (WC()->cart->get_cart() as $cart_item) {
-        $product            = $cart_item['data']; // ürün nesnesi
+        $product            = $cart_item['data']; // Products Objects
 
-        $regular_price      = $product->get_regular_price(); // normal fiyat
-        $sale_price         = $product->get_sale_price(); //indirimli fiyat
-        $price              = $product->get_price(); // son fiyat
-        $sku                = $product->get_sku(); // stok kodu
-        $name               = $product->get_name(); // ürün ismi
-        $quantity           = $cart_item['quantity']; // sipariş adedi
-        $line_subtotal      = $cart_item['line_subtotal'];  // ara toplam
-        array_push($csvList, $name, $sku, $price, $quantity, $line_subtotal); //diziyi gruplandır.
+        $regular_price      = $product->get_regular_price(); // Normal Price
+        $sale_price         = $product->get_sale_price(); // Sale Price
+        $price              = $product->get_price(); // Last Price
+        $sku                = $product->get_sku(); // Stock Code
+        $name               = $product->get_name(); // Product Name
+        $quantity           = $cart_item['quantity']; // Cart Item Product Quantity
+        $line_subtotal      = $cart_item['line_subtotal'];  // Cart Item Subtotal
+      
+        array_push($csvList, $name, $sku, $price, $quantity, $line_subtotal); // Add cart items to $csvList array
     }
 
-    $arr = array_chunk($csvList, 5);
-    $jsArray = json_encode($arr);
+    $arr = array_chunk($csvList, 5); // convert one-dimensional array to two-dimensional array php
+    $jsArray = json_encode($arr); // convert array to json
   
     ?>
     <script>
