@@ -1,8 +1,8 @@
 <?php
 
-add_action('woocommerce_after_cart_totals', 'cart2csv');
+add_action('woocommerce_after_cart_totals', 'cart2xls');
 
-function cart2csv() 
+function cart2xls() 
 {
     echo '<button id="cartDownload" class="button alt">Download as Excel</button>';
 
@@ -34,8 +34,8 @@ function cart2csv()
       // Each column is separated by ";" and new line "\n" for next row
       var csvContent = '';
       data.forEach(function (infoArray, index) {
-          dataString = infoArray.join('\t');
-          csvContent += index < data.length ? dataString + '\r\n' : dataString;
+          dataString = infoArray.join('\t'); // for excel
+          csvContent += index < data.length ? dataString + '\r\n' : dataString; // for excel
       });
 
       // The download function takes a CSV string, the filename and mimeType as parameters
@@ -71,7 +71,7 @@ function cart2csv()
       //download button click
       const downloadClick = document.getElementById('cartDownload');
       downloadClick.addEventListener('click', () => {
-          download(csvContent, 'cart-dowload.xls', 'application/vnd.ms-excel;encoding:utf-8');
+          download(csvContent, 'cart-dowload.xls', 'application/vnd.ms-excel;encoding:utf-8'); // for excel
       }, false);
     </script>
 <?php
