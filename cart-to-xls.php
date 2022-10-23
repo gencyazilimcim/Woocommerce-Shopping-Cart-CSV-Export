@@ -6,7 +6,7 @@ function cart2excel()
 {
     echo '<button id="cartDownload" class="button alt">Download as Excel</button>';
 
-    $csvList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // Excel header
+    $excelList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // Excel header
 
     foreach (WC()->cart->get_cart() as $cart_item) {
         $product            = $cart_item['data']; // Products Objects
@@ -16,13 +16,13 @@ function cart2excel()
         $price              = $product->get_price(); // Last Price
         $sku                = $product->get_sku(); // Stock Code
         $name               = $product->get_name(); // Product Name
-        $quantity           = $cart_item['quantity']; // Cart Item Product Quantity
+        $quantity           = $cart_item['quantity']; // Cart Item Quantity
         $line_subtotal      = $cart_item['line_subtotal'];  // Cart Item Subtotal
       
-        array_push($csvList, $name, $sku, $price, $quantity, $line_subtotal); // Add cart items to $csvList array
+        array_push($excelList, $name, $sku, $price, $quantity, $line_subtotal); // Add cart items to $excelList array
     }
 
-    $arr = array_chunk($csvList, 5); // convert one-dimensional array to two-dimensional array php
+    $arr = array_chunk($excelList, 5); // convert one-dimensional array to two-dimensional array php
     $jsArray = json_encode($arr); // convert array to json
   
     ?>
@@ -30,15 +30,15 @@ function cart2excel()
       // Example data given in question text
       var data = <?= $jsArray ?>;
 
-      // Building the CSV from the Data two-dimensional array
+      // Building the excel from the Data two-dimensional array
       // Each column is separated by ";" and new line "\n" for next row
-      var csvContent = '';
+      var excelContent = '';
       data.forEach(function (infoArray, index) {
           dataString = infoArray.join(';'); // for excel
-          csvContent += index < data.length ? dataString + '\r\n' : dataString; // for excel
+          excelContent += index < data.length ? dataString + '\r\n' : dataString; // for excel
       });
 
-      // The download function takes a CSV string, the filename and mimeType as parameters
+      // The download function takes a excel string, the filename and mimeType as parameters
       // Scroll/look down at the bottom of this snippet to see how download is called
       var download = function (content, fileName, mimeType) {
           var a = document.createElement('a');
@@ -72,7 +72,7 @@ function cart2excel()
       const downloadClick = document.getElementById('cartDownload');
       downloadClick.addEventListener('click', () => {
           // modern excel ->  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-          download(csvContent, 'cart-dowload.xls', 'application/vnd.ms-excel;encoding:utf-8'); // for excel
+          download(excelContent, 'cart-dowload.xls', 'application/vnd.ms-excel;encoding:utf-8'); // for excel
       }, false);
     </script>
 <?php
