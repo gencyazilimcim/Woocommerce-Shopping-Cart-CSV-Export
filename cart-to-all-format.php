@@ -1,10 +1,10 @@
 <?php
 
-add_action('woocommerce_after_cart_totals', 'cart2csv');
+add_action('woocommerce_after_cart_totals', 'cart2all');
 
-function cart2csv() 
+function cart2all() 
 {
-    $csvList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // Excel header
+    $fileList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // header
 
     foreach (WC()->cart->get_cart() as $cart_item) {
         $product         = $cart_item['data']; // Products Objects
@@ -14,13 +14,13 @@ function cart2csv()
         $price           = $product->get_price(); // Last Price
         $sku             = $product->get_sku(); // Stock Code
         $name            = $product->get_name(); // Product Name
-        $quantity        = $cart_item['quantity']; // Cart Item Product Quantity
+        $quantity        = $cart_item['quantity']; // Cart Item Quantity
         $line_subtotal   = $cart_item['line_subtotal'];  // Cart Item Subtotal
       
-        array_push($csvList, $name, $sku, $price, $quantity, $line_subtotal); // Add cart items to $csvList array
+        array_push($fileList, $name, $sku, $price, $quantity, $line_subtotal); // Add cart items to $fileList array
     }
 
-    $arr = array_chunk($csvList, 5); // convert one-dimensional array to two-dimensional array php
+    $arr = array_chunk($fileList, 5); // convert one-dimensional array to two-dimensional array php
     $jsArray = json_encode($arr); // convert array to json
     
     ?>
@@ -43,13 +43,13 @@ function cart2csv()
         //Format: txt , json , csv , xls ,xml , html ,css
         function download(exportType, fileName) {
         	(exportType == "txt") ? data = JSON.stringify(data) : "";
-            window.exportFromJSON({ data, fileName, exportType });
+        	window.exportFromJSON({ data, fileName, exportType });
         }
 
         const downloadClick = document.getElementById("cartDownload");
         downloadClick.addEventListener("change", (event) => {
-			download(event.target.value, `${event.target.value}-cart-download`);
-		}, false);
+		download(event.target.value, `${event.target.value}-cart-download`);
+	}, false);
     </script>
     <?php 
 }
