@@ -25,17 +25,17 @@ function cart2all()
     
     ?>
     <label class="button alt">
-		Download: 
-		<select id="cartDownload">
-			<option value="csv">CSV</option>
-			<option value="xml">XML</option>
-			<option value="xls">Excel</option>
-			<option value="txt">Text</option>
-			<option value="json">JSON</option>
-			<option value="html">HTML</option>
-			<option value="css">CSS</option>
-		</select>
-	</label>
+	Download: 
+	<select id="cartDownload">
+		<option value="csv">CSV</option>
+		<option value="xml">XML</option>
+		<option value="xls">Excel</option>
+		<option value="txt">Text</option>
+		<option value="json">JSON</option>
+		<option value="html">HTML</option>
+		<option value="css">CSS</option>
+	</select>
+    </label>
     <script src="https://unpkg.com/export-from-json@1.7.0/dist/umd/index.min.js"></script>
     <script>
     	var data = <?= $jsArray ?>;
