@@ -47,7 +47,7 @@ function cart2csv()
           if (navigator.msSaveBlob) {
               // IE10
               navigator.msSaveBlob(
-                  new Blob([content], {
+                  new Blob(["\uFEFF"+content], {
                       type: mimeType,
                   }),
                   fileName,
@@ -55,7 +55,7 @@ function cart2csv()
           } else if (URL && 'download' in a) {
               //html5 A[download]
               a.href = URL.createObjectURL(
-                  new Blob([content], {
+                  new Blob(["\uFEFF"+content], {
                       type: mimeType,
                   }),
               );
