@@ -1,8 +1,8 @@
 <?php
 
-add_action('woocommerce_after_cart_totals', 'cart2xls');
+add_action('woocommerce_after_cart_totals', 'cart2excel');
 
-function cart2xls() 
+function cart2excel() 
 {
     echo '<button id="cartDownload" class="button alt">Download as Excel</button>';
 
@@ -34,7 +34,7 @@ function cart2xls()
       // Each column is separated by ";" and new line "\n" for next row
       var csvContent = '';
       data.forEach(function (infoArray, index) {
-          dataString = infoArray.join('\t'); // for excel
+          dataString = infoArray.join(';'); // for excel
           csvContent += index < data.length ? dataString + '\r\n' : dataString; // for excel
       });
 
@@ -47,7 +47,7 @@ function cart2xls()
           if (navigator.msSaveBlob) {
               // IE10
               navigator.msSaveBlob(
-                  new Blob([content], {
+                  new Blob(["\uFEFF"+content], {
                       type: mimeType,
                   }),
                   fileName,
@@ -55,7 +55,7 @@ function cart2xls()
           } else if (URL && 'download' in a) {
               //html5 A[download]
               a.href = URL.createObjectURL(
-                  new Blob([content], {
+                  new Blob(["\uFEFF"+content], {
                       type: mimeType,
                   }),
               );
@@ -71,6 +71,7 @@ function cart2xls()
       //download button click
       const downloadClick = document.getElementById('cartDownload');
       downloadClick.addEventListener('click', () => {
+          // modern excel ->  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
           download(csvContent, 'cart-dowload.xls', 'application/vnd.ms-excel;encoding:utf-8'); // for excel
       }, false);
     </script>
