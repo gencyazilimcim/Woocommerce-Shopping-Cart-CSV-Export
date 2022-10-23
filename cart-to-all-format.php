@@ -4,8 +4,6 @@ add_action('woocommerce_after_cart_totals', 'cart2csv');
 
 function cart2csv() 
 {
-    echo '<button id="cartDownload" class="button alt">Download as Excel</button>';
-
     $csvList = array("Product Name", "SKU", "Price", "Quantity", "Subtotal"); // Excel header
 
     foreach (WC()->cart->get_cart() as $cart_item) {
@@ -26,6 +24,18 @@ function cart2csv()
     $jsArray = json_encode($arr); // convert array to json
     
     ?>
+    <label class="button alt">
+		Download: 
+		<select id="cartDownload">
+			<option value="csv">CSV</option>
+			<option value="xml">XML</option>
+			<option value="xls">Excel</option>
+			<option value="txt">Text</option>
+			<option value="json">JSON</option>
+			<option value="html">HTML</option>
+			<option value="css">CSS</option>
+		</select>
+	</label>
     <script src="https://unpkg.com/export-from-json@1.7.0/dist/umd/index.min.js"></script>
     <script>
     	var data = <?= $jsArray ?>;
@@ -37,9 +47,9 @@ function cart2csv()
         }
 
         const downloadClick = document.getElementById("cartDownload");
-        downloadClick.addEventListener("click", () => {
-        	download("xml", "shopping-cart-download");
-        }, false);
+        downloadClick.addEventListener("change", (event) => {
+			download(event.target.value, `${event.target.value}-cart-download`);
+		}, false);
     </script>
     <?php 
 }
